@@ -43,20 +43,20 @@
             </div>
 
             <div class="meta">
-              분류:
-              <c:out value="${notice.category}"/>
-              · 작성자:
-              <c:out value="${notice.author}"/>
+              분류: <c:out value="${notice.category}"/>
+              · 작성자: <c:out value="${notice.author}"/>
               · 게시일:
+              <fmt:formatDate value="${notice.publishAt}" pattern="yyyy-MM-dd" var="pubDate"/>
               <c:choose>
-                <c:when test="${notice.publishAt instanceof java.util.Date}">
-                  <fmt:formatDate value="${notice.publishAt}" pattern="yyyy-MM-dd"/>
+                <c:when test="${not empty pubDate}">
+                  ${pubDate}
                 </c:when>
                 <c:otherwise>
                   <c:out value="${notice.publishAt}"/>
                 </c:otherwise>
               </c:choose>
             </div>
+
 
             <div class="content">
               <c:out value="${empty notice.content ? '(내용 없음)' : notice.content}"/>
