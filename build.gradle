@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
-	id 'war'                                         // 외부 Tomcat 9 배포
-	id 'org.springframework.boot' version '2.7.18'   // Boot 2.7.x (javax / Tomcat9)
+	id 'war'                                         // 외부 Tomcat 9용 WAR
+	id 'org.springframework.boot' version '2.7.18'   // javax.* 네임스페이스
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
@@ -9,74 +9,61 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(11)   // JDK 11 고정
-	}
+	toolchain { languageVersion = JavaLanguageVersion.of(11) }  // JDK 11
 }
 
-repositories {
-	mavenCentral()
-}
+repositories { mavenCentral() }
 
 configurations {
-	// 외부 톰캣 배포(WAR) 시, Tomcat은 컨테이너가 제공 → providedRuntime
-	providedRuntime
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-	developmentOnly
+	localOnly // bootRun(로컬)에서만 포함하고 WAR에는 제외하고 싶은 의존성 (Jasper)
+}
+
+tasks.named('bootRun') {
+	classpath += configurations.localOnly
 }
 
 dependencies {
 	/* --- Spring --- */
-	implementation 'org.springframework.boot:spring-boot-starter-web'   // MVC
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'     // 로컬 핫리로드(선택)
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	/* --- JSP (Tomcat9 / javax.*) --- */
-	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'        // JSP 컴파일러
-	implementation 'javax.servlet:jstl:1.2'                              // JSTL (javax)
-	// 주의: 외부 Tomcat에서 제공되는 javax.servlet-api는 중복되지 않도록
+	/* --- JSP & JSTL --- */
+	localOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'      // JSP 컴파일러 → 로컬에서만
+	implementation 'javax.servlet:jstl:1.2'                      // JSTL은 WAR에 포함 (컨테이너가 안줌)
+
+	/* --- Servlet API: 컨테이너 제공(컴파일만) --- */
 	providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
 
-	/* --- DB: Oracle 21c XE + MyBatis 2.x --- */
+	/* --- DB: Oracle 21c XE + MyBatis --- */
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
-	runtimeOnly   'com.oracle.database.jdbc:ojdbc11:21.11.0.0'           // JDK11용 Oracle 드라이버
-	// HikariCP는 spring-boot-starter-jdbc에 내장 (starter-web 사용 시 transitively 포함)
+	runtimeOnly   'com.oracle.database.jdbc:ojdbc11:21.11.0.0'
 
-	/* --- Lombok (선택) --- */
+	/* --- Lombok --- */
 	compileOnly 'org.projectlombok:lombok:1.18.34'
 	annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
 	/* --- Test --- */
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
 
-tasks.withType(Test).configureEach {
-	useJUnitPlatform()
-}
-
-/* ====== 패키징 전략 ======
- * - 로컬 개발: `bootRun`으로 내장 톰캣 실행 가능
- * - 운영 배포(요구사항): 외부 Tomcat9에 WAR 배포
- */
-bootWar {
-	archiveBaseName.set('frontend')
-	archiveVersion.set('')          // 파일명: frontend.war
-	launchScript()                  // 필요시 linux 서비스 스크립트 포함(외부 톰캣 배포면 무시)
-}
-war {
-	enabled = true
-	archiveBaseName.set('frontend')
-	archiveVersion.set('')
-}
-
-// 외부 톰캣 배포 시, 내장 톰캣 중복 방지 (providedRuntime으로 교체)
-dependencies {
+	/* --- 외부 Tomcat에 WAR 배포 시 내장 톰캣은 제공 범위로 --- */
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
-// 빌드 성능 옵션(Gradle 7.6.4 호환)
+bootWar {
+	archiveBaseName.set('frontend')
+	archiveVersion.set('') // frontend.war
+}
+
+tasks.named('war') {
+	doFirst { println '[war] Excluding local-only (jasper) from WAR' }
+	classpath = classpath.filter { file ->
+		!file.name.contains('tomcat-embed-jasper')
+	}
+}
+
+tasks.withType(Test).configureEach { useJUnitPlatform() }
+
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'
 	options.deprecation = true

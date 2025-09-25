@@ -29,7 +29,7 @@
 <!-- 공통 헤더/사이드바/푸터 include
      - 실제 경로에 맞춰 조정하세요 (예: /WEB-INF/views/partials/header.jsp 등)
      - 정적 HTML 조각이라면 .html도 include 가능 -->
-<jsp:include page="/mapper/header.jsp"/>
+<jsp:include page="//header.jsp"/>
 <main class="py-4">
   <div class="container-1200 d-flex gap-24">
     <jsp:include page="/mapper/sidebar.jsp"/>
