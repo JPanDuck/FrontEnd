@@ -1,0 +1,125 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>학사정보관리시스템 - 대시보드</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css"/>
+    <link rel="icon" href="data:,">
+</head>
+<body class="bg-page">
+
+<%-- 헤더 삽입 --%>
+<%@ include file="/mapper/header.jsp" %>
+
+<main class="py-4">
+    <div class="container-1200 d-flex gap-24">
+
+        <%-- 사이드바 삽입 --%>
+        <%@ include file="/mapper/sidebar.jsp" %>
+
+        <section class="flex-1 d-flex flex-column gap-24">
+            <div class="row g-3">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card-white p-20 card-filter-item">
+                        <div class="text-gray-600 xsmall mb-1">재학생 수</div>
+                        <div class="fs-24 fw-700">000</div>
+                        <div class="xsmall text-gray-500 mt-2">업데이트: YYYY-MM-DD</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card-white p-20 card-filter-item">
+                        <div class="text-gray-600 xsmall mb-1">수강 신청</div>
+                        <div class="fs-24 fw-700">000</div>
+                        <div class="xsmall text-gray-500 mt-2">업데이트: YYYY-MM-DD</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card-white p-20 card-filter-item">
+                        <div class="text-gray-600 xsmall mb-1">성적 처리</div>
+                        <div class="fs-24 fw-700">000</div>
+                        <div class="xsmall text-gray-500 mt-2">업데이트: YYYY-MM-DD</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card-white p-20 card-filter-item">
+                        <div class="text-gray-600 xsmall mb-1">공지/알림</div>
+                        <div class="fs-24 fw-700">000</div>
+                        <div class="xsmall text-gray-500 mt-2">업데이트: YYYY-MM-DD</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-12 col-lg-8">
+                    <div class="card-white p-20 h-320 card-filter-item">
+                        <div class="d-flex justify-content-between align-items-center mb-12">
+                            <div class="fw-700">학기별 수강 현황</div>
+                            <div class="xsmall text-gray-500">미리보기</div>
+                        </div>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <div class="card-white p-20 h-320">
+                        <div class="d-flex justify-content-between align-items-center mb-12">
+                            <div class="fw-700">공지사항</div>
+                            <a href="${pageContext.request.contextPath}/pages/common/notice.jsp" class="xsmall text-navy">더보기</a>
+                        </div>
+                        <div class="d-grid gap-10">
+                            <div class="card-white p-12 card-filter-item">
+                                <div class="fw-700 small truncate">[공지] 2학기 수강신청 안내</div>
+                                <div class="xsmall text-gray-500 mt-1">2025-09-08 · 전체</div>
+                            </div>
+                            <div class="card-white p-12 card-filter-item">
+                                <div class="fw-700 small truncate">[장학] 국가장학금 2차 신청 마감</div>
+                                <div class="xsmall text-gray-500 mt-1">2025-09-07 · 전체</div>
+                            </div>
+                            <div class="card-white p-12 card-filter-item">
+                                <div class="fw-700 small truncate">[학사] 수업평가 실시 안내</div>
+                                <div class="xsmall text-gray-500 mt-1">2025-09-03 · 컴퓨터공학과</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-white p-20 card-filter-item">
+                <div class="d-flex justify-content-between align-items-center mb-12">
+                    <div class="fw-700">수강/성적 처리 현황</div>
+                    <div class="xsmall text-gray-500">표(디자인 전용)</div>
+                </div>
+                <div class="table-wrap">
+                    <table class="table align-middle">
+                        <thead>
+                        <tr>
+                            <th>구분</th><th>학과</th><th>상태</th><th>업데이트</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr><td>항목 1</td><td>컴퓨터공학과</td><td><span class="pill pill-navy">진행</span></td><td>2025-09-08</td></tr>
+                        <tr><td>항목 2</td><td>컴퓨터공학과</td><td><span class="pill pill-navy">진행</span></td><td>2025-09-08</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</main>
+
+<%-- 푸터 삽입 --%>
+<%@ include file="/mapper/footer.jsp" %>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

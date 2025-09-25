@@ -1,0 +1,45 @@
+plugins {
+	id 'java'
+	id 'war' // WAR 패키징을 위한 플러그인
+	id 'org.springframework.boot' version '2.7.18'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.university'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11' // JDK 11 설정
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Spring Boot
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc' // JDBC
+
+	// JSP를 사용하기 위한 Tomcat 내장 서버 및 의존성
+	// providedRuntime 키워드는 WAR 파일에 포함되지 않도록 설정
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	providedRuntime 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'javax.servlet:jstl:1.2'
+
+	// Oracle 데이터베이스 드라이버
+	// Oracle JDBC 드라이버는 Maven Central에 없으므로 별도 설정이 필요
+	implementation files('libs/ojdbc11.jar')
+
+	// Mybatis ORM
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
+
+	// 테스트
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+// WAR 파일 설정
+war {
+	archiveFileName = 'realealfinal.war'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
