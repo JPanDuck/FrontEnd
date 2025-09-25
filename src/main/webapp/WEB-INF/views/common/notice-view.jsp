@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
 
   <!-- App CSS (정적리소스: src/main/resources/static/css/style.css) -->
-  <link rel="stylesheet" href="<c:url value='/static/css/style.css'/>"/>
+  <link rel="stylesheet" href="<c:url value="//css/style.css/>"/>
 
   <style>
     .notice-view .title { font-size:20px; font-weight:700; }
