@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ac.kr.academy.mapper.notification.NotificationMapper">
+<mapper namespace="com.example.realrealfinal.mapper.notification.NotificationMapper">
 
-    <insert id="insertNotification" parameterType="com.ac.kr.academy.domain.notification.Notification">
+    <insert id="insertNotification" parameterType="com.example.realrealfinal.domain.notification.Notification">
         <selectKey keyProperty="notiId" order="BEFORE" resultType="long">
             SELECT notification_seq.NEXTVAL FROM dual
         </selectKey>
@@ -18,7 +18,7 @@
         )
     </insert>
 
-    <select id="getNotificationsByUserId" resultType="com.ac.kr.academy.domain.notification.Notification">
+    <select id="getNotificationsByUserId" resultType="com.example.realrealfinal.domain.notification.Notification">
         SELECT * FROM notification
         WHERE target_id = #{targetId}
         ORDER BY created_at DESC
