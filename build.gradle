@@ -28,6 +28,10 @@ dependencies {
 	// Oracle JDBC 드라이버는 Maven Central에 없으므로 별도 설정이 필요
 	implementation files('libs/ojdbc11.jar')
 
+	implementation 'com.oracle.database.jdbc:ojdbc8:21.11.0.0'   // 권장
+	// 또는 자바 11 전용 드라이버:
+	// implementation 'com.oracle.database.jdbc:ojdbc11:21.11.0.0'
+
 	// Mybatis ORM
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
 
