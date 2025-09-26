@@ -16,13 +16,13 @@
 <body class="bg-page">
 
 <%-- 헤더 삽입 --%>
-<%@ include file="/mapper/header.jsp" %>
+<%@ include file="/WEB-INF/views/components/header.jsp" %>
 
 <main class="py-4">
     <div class="container-1200 d-flex gap-24">
 
         <%-- 사이드바 삽입 --%>
-        <%@ include file="/mapper/sidebar.jsp" %>
+        <%@ include file="/WEB-INF/views/components/sidebar.jsp" %>
 
         <section class="flex-1 d-flex flex-column gap-24">
             <div class="row g-3">
@@ -116,10 +116,30 @@
 </main>
 
 <%-- 푸터 삽입 --%>
-<%@ include file="/mapper/footer.jsp" %>
+<%@ include file="/WEB-INF/views/components/footer.jsp" %>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+        alert("로그인이 필요합니다.");
+        window.location.href = "<c:url value='/auth/login'/>";
+    }
+
+    // ✅ 공통 fetch wrapper
+    async function apiFetch(url, options = {}) {
+        const token = localStorage.getItem("accessToken");
+        return fetch(url, {
+            ...options,
+            headers: {
+                ...(options.headers || {}),
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`   // ✅ 토큰 추가
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

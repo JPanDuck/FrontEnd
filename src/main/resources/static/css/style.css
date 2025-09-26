@@ -342,3 +342,34 @@ img { max-width: 100%; display: block; }
 
 /* ===== Footer ===== */
 .app-footer { padding: 20px 0 32px; border-top: 1px solid var(--gray-200); background: transparent; }
+
+/* ===== Login Page ===== */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;         /* 화면 세로 중앙 */
+  background: var(--gray-100);
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;          /* 카드 최대 폭 */
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  background: #fff;
+}
+
+.login-logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.login-logo {
+  max-width: 120px;          /* 로고 최대 크기 */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
