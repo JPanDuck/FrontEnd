@@ -43,48 +43,34 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script>
-    document.getElementById("loginForm").addEventListener("submit", async function (e) {
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
-
-        const username = document.getElementById("username").value;
+        const username = document.getElementById("username").value.trim();
         const password = document.getElementById("password").value;
 
-        try {
-            // ✅ 반드시 /api/auth/login 으로 POST
-            const res = await fetch("${pageContext.request.contextPath}/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            });
+        const res = await fetch("${ctx}/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
 
-            if (!res.ok) {
-                alert("로그인 실패: 아이디 또는 비밀번호를 확인 해 주세요.");
-                return;
-            }
+        if (!res.ok) { alert("로그인 실패"); return; }
 
-            const data = await res.json();
+        const data = await res.json();
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
 
-            // ✅ 토큰 저장
-            localStorage.setItem("accessToken", data.accessToken);
-            localStorage.setItem("refreshToken", data.refreshToken);
-
-            // ✅ 임시 비밀번호 여부 확인
-            if (data.isTempPassword) {
-                alert("임시 비밀번호입니다. 비밀번호를 변경해주세요.");
-                window.location.href = "${pageContext.request.contextPath}/auth/change-password";
-                return;
-            }
-
-            // ✅ 로그인 성공 → index 페이지로 이동
-            window.location.href = "${pageContext.request.contextPath}/auth/common/index";
-
-        } catch (err) {
-            console.error(err);
-            alert("서버 오류가 발생했습니다.");
+        if (data.isTempPassword) {
+            location.href = "${ctx}/auth/change-password";
+            return;
         }
+        location.href = "${ctx}/auth/common/index";
     });
 </script>
+
+
 
 
 </body>
