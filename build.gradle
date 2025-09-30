@@ -63,8 +63,11 @@ tasks.named('test') {
 }
 
 /* Boot WAR만 산출 (plain war/jar 비활성) */
-bootJar { enabled = false }
-tasks.named('war') { enabled = false }
+bootJar { enabled = false }    // JAR 끄기
+jar { enabled = false }        // 일반 JAR도 끄기
+
+// ❗️ 여기서 ROOT.war 로 이름을 강제
 bootWar {
-	archiveClassifier = 'exec'
+	archiveClassifier = null   // 뒤에 -exec 붙지 않도록 제거
+	archiveFileName = "ROOT.war"
 }
