@@ -12,9 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class AdminLoginTest {
     public static void main(String[] args){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String testPassword = "admin123";   //암호화할 비밀번호
+        String testPassword = "plz123456";   //암호화할 비밀번호
         String encodedPassword = passwordEncoder.encode(testPassword);
         log.info("testPassword:{}", encodedPassword);
     }
 }
-//$2a$10$TjEx.NZBVvxzKwyZ20UBfOlUgPIWNLsl.ja5xVqkuqtTSy3TrTA5G
+//$2a$10$jTuGgcZuc5FHmIuMgqiUtO4wkx1a/mKHuXUZkVJvRwZ1cMb/vw3Yi

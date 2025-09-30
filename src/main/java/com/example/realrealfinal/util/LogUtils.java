@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- LogUtils : 공용 기능 (파일읽기) -> static => 주입 필요X
+   LogUtils : 공용 기능 (파일읽기) -> static => 주입 필요X
 
  * [로그 모니터링]
  * 로그 파일에서 마지막 N줄을 읽고, (filter 키워드가 있으면 필터링)
@@ -17,7 +17,7 @@ public class LogUtils {
 
     private static final String LOG_FILE_PATH = "./logs/app.log";
 
-    //WARN, ERROR 만 출력
+//WARN, ERROR 만 출력
     public static List<String> tail(int lines) throws IOException {
         List<String> all = Files.readAllLines(Paths.get(LOG_FILE_PATH));
 
